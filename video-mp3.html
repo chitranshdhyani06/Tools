@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert videos to MP3 online with adjustable quality settings. Fast, secure, and free video to MP3 converter.">
+    <meta name="keywords" content="Video to MP3, convert video, online MP3 converter, extract audio">
+    <meta name="author" content="YourSiteName">
+    <title>Video to MP3 Converter | Fast & Free</title>
+    <style>
+        :root {
+            --primary-color: #FFEB3B;
+            --primary-hover: #FBC02D;
+            --background-light: #FFFDE7;
+            --card-background: #fff;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--background-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        header {
+            text-align: center;
+            padding: 30px 20px 20px;
+        }
+        header h1 {
+            margin: 0 0 10px;
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        header p { font-size: 1rem; color: #666; }
+        .container {
+            background: var(--card-background);
+            padding: 25px;
+            margin: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px var(--shadow-light);
+            max-width: 700px;
+            width: 95%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input[type="file"], input[type="range"], button { width: 100%; }
+        input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: var(--border-radius);
+        }
+        button {
+            padding: 12px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: var(--border-radius);
+            color: #333;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        button:hover {
+            background: var(--primary-hover);
+            color: #212121;
+        }
+        .output {
+            text-align: center;
+            word-break: break-word;
+        }
+        .ads-placeholder {
+            width: 100%;
+            max-width: 728px;
+            margin: 20px auto;
+            text-align: center;
+            min-height: 90px;
+            background: #FFF176;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+            border-radius: var(--border-radius);
+        }
+        footer {
+            text-align: center;
+            padding: 20px 10px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Video to MP3 Converter</h1>
+    <p>Convert your video files to high-quality MP3 audio effortlessly and free.</p>
+</header>
+
+<div class="ads-placeholder">
+    <!-- Google AdSense Ad Slot -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-YOUR-AD-UNIT-ID" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<div class="container">
+    <input type="file" id="videoInput" accept="video/*">
+    <label for="quality">MP3 Quality:</label>
+    <input type="range" id="quality" min="64" max="320" value="192">
+    <button onclick="convertVideoToMp3()">Convert to MP3</button>
+    <div class="output" id="output"></div>
+</div>
+
+<div class="ads-placeholder">
+    <!-- Another AdSense Ad Slot -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-YOUR-AD-UNIT-ID" data-ad-slot="0987654321" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<footer>
+    &copy; 2025 YourSiteName | Secure & Free Video to MP3 Conversion.
+</footer>
+
+<script>
+    async function convertVideoToMp3() {
+        const input = document.getElementById('videoInput');
+        const output = document.getElementById('output');
+        const quality = document.getElementById('quality').value;
+        output.innerHTML = '';
+
+        if (!input.files.length) {
+            alert('Please select a video file to convert.');
+            return;
+        }
+
+        try {
+            // Placeholder for real conversion logic.
+            // In practice, video to MP3 conversion must be done server-side using ffmpeg or similar.
+
+            const message = document.createElement('p');
+            message.textContent = `Conversion queued at ${quality} kbps quality.`;
+            output.appendChild(message);
+
+            const downloadMock = document.createElement('a');
+            downloadMock.href = '#';
+            downloadMock.textContent = 'Download MP3 (Mock)';
+            downloadMock.style.display = 'block';
+            output.appendChild(downloadMock);
+
+        } catch (error) {
+            console.error('Conversion failed:', error);
+            alert('An error occurred during conversion. Please try again.');
+        }
+    }
+</script>
+</body>
+</html>
