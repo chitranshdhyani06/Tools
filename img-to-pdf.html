@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert images to PDF format with ease. Upload multiple images and download your PDF in a few steps.">
+    <meta name="keywords" content="image to pdf, convert images to pdf, online pdf tool, create pdf from images">
+    <meta name="author" content="YourSiteName">
+    <title>Responsive Image to PDF Tool</title>
+    <style>
+        :root {
+            --primary-color: #FFEB3B;
+            --primary-hover: #FBC02D;
+            --background-light: #FFFDE7;
+            --card-background: #fff;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --text-color: #333;
+            --input-border-color: #ddd;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--background-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .container {
+            background: var(--card-background);
+            padding: 25px;
+            margin: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px var(--shadow-light);
+            max-width: 700px;
+            width: 95%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        input[type="file"],
+        button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--input-border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            margin: 10px 0;
+        }
+
+        input[type="file"] {
+            font-size: 1.1rem;
+        }
+
+        button {
+            background: var(--primary-color);
+            color: var(--text-color);
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+            color: #212121;
+        }
+
+        .output {
+            text-align: center;
+            word-break: break-word;
+        }
+
+        .ads-placeholder {
+            width: 100%;
+            max-width: 728px;
+            margin: 20px auto;
+            text-align: center;
+            min-height: 90px;
+            background: #FFF176;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+            border-radius: var(--border-radius);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 10px;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Image to PDF Tool</h1>
+        <p>Convert multiple images to PDF format with ease. Upload your images and get the PDF download link.</p>
+    </header>
+
+    <div class="ads-placeholder">
+        <!-- Google AdSense Ad Slot -->
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-YOUR-AD-UNIT-ID" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="container">
+        <input type="file" id="imageInput" accept="image/*" multiple>
+        <button onclick="convertToPDF()">Convert to PDF</button>
+        <div class="output" id="output"></div>
+    </div>
+
+    <div class="ads-placeholder">
+        <!-- Another AdSense Ad Slot -->
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-YOUR-AD-UNIT-ID" data-ad-slot="0987654321" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <footer>
+        &copy; 2025 YourSiteName | Fast & Secure Image to PDF Conversion
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script>
+        function convertToPDF() {
+            const input = document.getElementById('imageInput');
+            const output = document.getElementById('output');
+
+            if (!input.files.length) {
+                alert('Please select images to convert.');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+            let imageCount = 0;
+
+            for (let i = 0; i < input.files.length; i++) {
+                const file = input.files[i];
+                const reader = new FileReader();
+
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.src = event.target.result;
+
+                    img.onload = function() {
+                        if (imageCount > 0) {
+                            pdf.addPage();
+                        }
+                        pdf.addImage(img, 'JPEG', 10, 10, 180, 250);  // Adjust dimensions if needed
+                        imageCount++;
+
+                        if (imageCount === input.files.length) {
+                            const pdfBlob = pdf.output('blob');
+                            const downloadLink = document.createElement('a');
+                            downloadLink.href = URL.createObjectURL(pdfBlob);
+                            downloadLink.download = 'images-to-pdf.pdf';
+                            downloadLink.textContent = 'Download PDF';
+                            output.innerHTML = '';
+                            output.appendChild(downloadLink);
+                        }
+                    };
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+
+</body>
+</html>
