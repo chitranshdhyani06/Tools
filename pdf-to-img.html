@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert PDF pages to images and optimize them for web use with adjustable compression levels. Free and easy-to-use online tool.">
+    <meta name="keywords" content="PDF to image, PDF converter, compress images, optimize images, online PDF tool">
+    <meta name="author" content="YourSiteName">
+    <title>Responsive PDF to Image Converter & Compression Tool</title>
+    <style>
+        :root {
+            --primary-color: #FFEB3B;
+            --primary-hover: #FBC02D;
+            --background-light: #FFFDE7;
+            --card-background: #fff;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--background-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        header {
+            text-align: center;
+            padding: 30px 20px 20px;
+        }
+        header h1 {
+            margin: 0 0 10px;
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        header p { font-size: 1rem; color: #666; }
+        .container {
+            background: var(--card-background);
+            padding: 25px;
+            margin: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px var(--shadow-light);
+            max-width: 700px;
+            width: 95%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input[type="file"], input[type="range"], button { width: 100%; }
+        input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: var(--border-radius);
+        }
+        button {
+            padding: 12px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: var(--border-radius);
+            color: #333;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        button:hover {
+            background: var(--primary-hover);
+            color: #212121;
+        }
+        .output img {
+            width: 100%;
+            max-width: 100%;
+            margin-top: 10px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px var(--shadow-light);
+        }
+        .ads-placeholder {
+            width: 100%;
+            max-width: 728px;
+            margin: 20px auto;
+            text-align: center;
+            min-height: 90px;
+            background: #FFF176;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+            border-radius: var(--border-radius);
+        }
+        footer {
+            text-align: center;
+            padding: 20px 10px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Responsive PDF to Image Converter</h1>
+    <p>Convert PDF pages to images with adjustable compression levels for optimized web performance.</p>
+</header>
+<div class="ads-placeholder">
+    <!-- Google AdSense Ad Slot -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-YOUR-AD-UNIT-ID" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<div class="container">
+    <input type="file" id="pdfInput" accept="application/pdf">
+    <label for="compression">Compression Level:</label>
+    <input type="range" id="compression" min="10" max="100" value="80">
+    <button onclick="convertPDFToImage()">Convert PDF to Image</button>
+    <div class="output" id="output"></div>
+</div>
+<div class="ads-placeholder">
+    <!-- Another AdSense Ad Slot -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-YOUR-AD-UNIT-ID" data-ad-slot="0987654321" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+<footer>
+    &copy; 2025 YourSiteName | Efficient PDF to Image Conversion.
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+<script>
+    async function convertPDFToImage() {
+        const fileInput = document.getElementById('pdfInput');
+        const compressionLevel = document.getElementById('compression').value / 100;
+        const output = document.getElementById('output');
+        output.innerHTML = '';
+
+        if (!fileInput.files.length) {
+            alert('Please select a PDF file.');
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const fileReader = new FileReader();
+
+        fileReader.onerror = function() {
+            alert('Error reading the PDF file. Please try again.');
+        };
+
+        fileReader.onload = async function() {
+            try {
+                const typedarray = new Uint8Array(this.result);
+                const loadingTask = pdfjsLib.getDocument(typedarray);
+                const pdf = await loadingTask.promise;
+
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    const viewport = page.getViewport({ scale: 2.0 });
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+
+                    await page.render({ canvasContext: context, viewport: viewport }).promise;
+
+                    canvas.toBlob(function(blob) {
+                        if (blob) {
+                            const url = URL.createObjectURL(blob);
+                            const img = new Image();
+                            img.onload = function() {
+                                URL.revokeObjectURL(url);
+                            };
+                            img.onerror = function() {
+                                console.error('Failed to load image blob URL.');
+                            };
+                            img.src = url;
+                            output.appendChild(img);
+                        } else {
+                            alert('Failed to compress and generate image.');
+                        }
+                    }, 'image/jpeg', compressionLevel);
+                }
+            } catch (err) {
+                console.error('Error rendering PDF:', err);
+                alert('Could not process PDF. Make sure it\'s a valid file.');
+            }
+        };
+
+        try {
+            fileReader.readAsArrayBuffer(file);
+        } catch (error) {
+            alert('An error occurred while reading the file.');
+            console.error(error);
+        }
+    }
+</script>
+</body>
+</html>
